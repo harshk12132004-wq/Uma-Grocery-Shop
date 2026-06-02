@@ -1,0 +1,19 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+
+/* Google Translate Hacks */
+body { top: 0 !important; }
+.skiptranslate iframe { display: none !important; }
+#google_translate_element { overflow: hidden; max-height: 40px; border-radius: 8px; background-color: white; }
+#google_translate_element select { padding: 4px; border: none; font-size: 14px; background: transparent; cursor: pointer; outline: none; }
+.goog-te-gadget { color: transparent !important; }
+.goog-te-gadget .goog-te-combo { color: #333 !important; }
+
+
+.translate-container #google_translate_element select { background-color: #2A0033 !important; color: #E4C560 !important; font-weight: bold; border-radius: 4px; padding: 4px 8px; border: 1px solid #4A0E4E !important; }
+
+
+html, body { overflow-x: hidden; width: 100%; position: relative; }
+

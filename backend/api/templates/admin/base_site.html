@@ -1,0 +1,199 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}" style="font-family: 'Georgia', serif; letter-spacing: 2px; font-weight: bold; color: #E4C560; text-decoration: none;">
+    UMA GROCERY <span style="font-size: 11px; font-weight: 300; letter-spacing: 3px; color: #ffffff; display: block; margin-top: 4px; text-transform: uppercase; font-family: sans-serif;">Luxury Site Admin</span>
+  </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+  /* Premium CSS Custom Properties for Theme Override */
+  :root {
+    --primary: #1D0130 !important; /* Deep luxury purple */
+    --primary-fg: #E4C560 !important; /* Elegant gold */
+    --secondary: #2E083B !important; /* Rich sidebar purple */
+    --secondary-fg: #ffffff !important;
+    --accent: #E4C560 !important;
+    --accent-fg: #1D0130 !important;
+    
+    /* Body & Panel backgrounds */
+    --body-bg: #FAF6FB !important; /* Soft premium lavender white */
+    --body-fg: #1F0D24 !important; /* Deep dark purple-black for high contrast readability */
+    --body-quiet-color: #796680 !important;
+    --border-color: #E6DCEB !important;
+    
+    /* Links & Buttons */
+    --link-color: #551661 !important;
+    --link-hover-color: #1D0130 !important;
+    --link-selected-color: #E4C560 !important;
+    
+    --button-bg: #2E083B !important;
+    --button-hover-bg: #451057 !important;
+    --button-fg: #ffffff !important;
+    
+    --default-button-bg: #E4C560 !important;
+    --default-button-hover-bg: #D4B44B !important;
+    --default-button-fg: #1D0130 !important;
+  }
+
+  /* Premium Micro-Animations and Design Polishes */
+  body {
+    background-color: var(--body-bg) !important;
+    color: var(--body-fg) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  #header {
+    background: linear-gradient(135deg, #1D0130 0%, #2A0033 100%) !important;
+    border-bottom: 3px solid #E4C560 !important;
+    padding: 15px 40px !important;
+    box-shadow: 0 4px 15px rgba(29, 1, 48, 0.15) !important;
+  }
+
+  #header a {
+    transition: color 0.3s ease !important;
+  }
+  
+  #header a:hover {
+    color: #E4C560 !important;
+  }
+
+  div.breadcrumbs {
+    background: #FAF6FB !important;
+    border-bottom: 1px solid #E6DCEB !important;
+    padding: 10px 40px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #551661 !important;
+  }
+
+  div.breadcrumbs a {
+    color: #551661 !important;
+    font-weight: bold !important;
+  }
+
+  /* Premium Cards styling */
+  .module {
+    background: #ffffff !important;
+    border: 1px solid #E6DCEB !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 12px rgba(29, 1, 48, 0.03) !important;
+    overflow: hidden !important;
+    margin-bottom: 20px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+
+  .module:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(29, 1, 48, 0.06) !important;
+  }
+
+  .module caption, .module h2 {
+    background: #1D0130 !important;
+    color: #E4C560 !important;
+    font-family: 'Georgia', serif !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    letter-spacing: 1px !important;
+    padding: 12px 18px !important;
+    border-bottom: 1px solid #E6DCEB !important;
+  }
+
+  .module caption a, .module h2 a {
+    color: #E4C560 !important;
+  }
+
+  /* Tables inside modules */
+  .module table {
+    width: 100% !important;
+  }
+
+  .module tr.row1 {
+    background: #ffffff !important;
+  }
+
+  .module tr.row2 {
+    background: #FCF9FD !important;
+  }
+
+  .module td, .module th {
+    padding: 12px 18px !important;
+    border-bottom: 1px solid #EAE1ED !important;
+  }
+
+  /* Table Headers style */
+  thead th {
+    background: #F4ECF7 !important;
+    color: #1D0130 !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid #E6DCEB !important;
+  }
+
+  /* Custom styling for standard actions */
+  input[type=submit], input[type=button], .button, a.button {
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    cursor: pointer !important;
+  }
+
+  /* Default Save/Add Button */
+  input[type=submit].default, .button.default {
+    background: linear-gradient(90deg, #E4C560 0%, #F5D777 100%) !important;
+    color: #1D0130 !important;
+    box-shadow: 0 2px 8px rgba(228, 197, 96, 0.25) !important;
+  }
+
+  input[type=submit].default:hover, .button.default:hover {
+    background: linear-gradient(90deg, #C7AB4B 0%, #E4C560 100%) !important;
+    box-shadow: 0 4px 12px rgba(228, 197, 96, 0.4) !important;
+  }
+
+  /* Secondary Button */
+  input[type=submit]:not(.default), .button:not(.default) {
+    background: #2E083B !important;
+    color: #ffffff !important;
+  }
+
+  input[type=submit]:not(.default):hover, .button:not(.default):hover {
+    background: #451057 !important;
+  }
+
+  /* Sidebar styling */
+  #content-related {
+    background: #ffffff !important;
+    border: 1px solid #E6DCEB !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 12px rgba(29, 1, 48, 0.03) !important;
+    padding: 20px !important;
+  }
+
+  #content-related h2 {
+    font-family: 'Georgia', serif !important;
+    color: #1D0130 !important;
+    background: none !important;
+    padding: 0 0 10px 0 !important;
+    border-bottom: 2px solid #E6DCEB !important;
+    margin-bottom: 15px !important;
+    font-size: 18px !important;
+  }
+
+  .actionlist li {
+    padding: 6px 0 !important;
+    border-bottom: 1px solid #FCF9FD !important;
+  }
+
+  .actionlist li a {
+    color: #551661 !important;
+  }
+</style>
+{% endblock %}
