@@ -151,3 +151,17 @@ REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'api.serializers.UserSerializer'
 }
 
+# Session & CSRF Cookie Settings for Cross-Domain Authentication (Vercel to Render)
+IS_RENDER = os.getenv('RENDER') == 'true'
+
+if IS_RENDER:
+    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'None'
+    CSRF_COOKIE_SECURE = True
+else:
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    CSRF_COOKIE_SECURE = False
+
