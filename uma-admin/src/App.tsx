@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User as UserIcon, Lock } from 'lucide-react';
+import { User as UserIcon, Lock, Eye, EyeOff } from 'lucide-react';
 import { Alert, Button, CircularProgress } from '@mui/material';
 import { authAPI, productsAPI, categoriesAPI, Product, User as UserType } from './services/api';
 import AdminPanel from './components/AdminPanel';
@@ -14,6 +14,7 @@ export default function App() {
   
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     checkCurrentUser();
@@ -139,13 +140,20 @@ export default function App() {
                 <Lock size={18} className="text-purple-300" />
               </div>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
-                className="w-full bg-[#1D0130]/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block pl-11 p-3.5 transition-all placeholder-gray-600"
+                className="w-full bg-[#1D0130]/5 border border-white/10 text-white text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block pl-11 pr-11 p-3.5 transition-all placeholder-gray-600"
                 placeholder="••••••••"
                 onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-purple-300 hover:text-[#E4C560] transition-colors focus:outline-none"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 
