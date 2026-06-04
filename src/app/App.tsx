@@ -1381,14 +1381,13 @@ export default function App() {
                   </div>
 
                   {/* Slide Image Mockup */}
-                  <div className="flex-1 w-full max-w-[260px] sm:max-w-[380px] h-[160px] sm:h-[280px] relative overflow-hidden rounded-2xl shadow-2xl border border-purple-900/40 mt-4 md:mt-0 transition-transform duration-700 hover:scale-105">
+                  <div className="flex-1 w-full max-w-[260px] sm:max-w-[380px] h-[160px] sm:h-[280px] relative mt-4 md:mt-0 transition-transform duration-700 hover:scale-105">
                     <img
                       src={slide.image}
                       alt={slide.title}
                       onError={handleImageError}
                       className="w-full h-full object-cover rounded-2xl"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-purple-950/40 to-transparent"></div>
                   </div>
                 </div>
               ))}
