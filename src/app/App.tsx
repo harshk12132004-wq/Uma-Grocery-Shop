@@ -69,7 +69,7 @@ const categoryImages: Record<string, string> = {
   'Vegetables': '/tomato_1.jpg',
   'Dairy': '/tomato_2.jpg',
   'Chocolates': '/tomato_3.jpg',
-  'Masala Powder': '/tomato_4.jpg',
+  'Masala Powder': '/tomato_4.png',
   'Oral Care': '/logo.png',
   'Personal Care': '/logo.png'
 };
@@ -331,7 +331,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [tomatoSlideIndex, setTomatoSlideIndex] = useState(0);
   const [productSlideIndex, setProductSlideIndex] = useState(0);
-  const tomatoImages = ['/tomato_1.jpg', '/tomato_2.jpg', '/tomato_3.jpg', '/tomato_4.jpg'];
+  const tomatoImages = ['/tomato_1.jpg', '/tomato_2.jpg', '/tomato_3.jpg', '/tomato_4.png'];
 
   // Admin Panel states
   const [adminTab, setAdminTab] = useState<'products' | 'feedback' | 'users'>('products');
@@ -1127,7 +1127,7 @@ export default function App() {
                           
                           {/* Sub-item List */}
                           <ul className="space-y-1 pl-5">
-                            {sec.items.map((item) => (
+                            {sec.items.map((item: string) => (
                               <li key={item}>
                                 <span
                                   onClick={() => {
@@ -1484,7 +1484,7 @@ export default function App() {
                     '/tomato_1.jpg',
                     '/tomato_2.jpg',
                     '/tomato_3.jpg',
-                    '/tomato_4.jpg',
+                    '/tomato_4.png',
                     '/logo.png',
                   ];
                   const hash = category.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -3867,91 +3867,7 @@ export default function App() {
                 <X size={20} />
               </IconButton>
 
-              {/* Left Column: Premium Product Image showcase */}
-              <div className="w-full md:w-1/2 bg-[#FAF8FB] p-8 flex items-center justify-center relative min-h-[300px]">
-                <span className="absolute top-4 left-4 bg-[#4A0E4E] text-gray-200 text-[9px] font-extrabold py-1 px-3 rounded-full uppercase tracking-wider shadow-sm z-10">
-                  Premium Quality
-                </span>
-                
-                {(() => {
-                  const isTomato = viewingProduct.name.toLowerCase() === 'tomato';
-                  const dbSlideImages = [
-                    viewingProduct.image_url,
-                    viewingProduct.image_url_2,
-                    viewingProduct.image_url_3,
-                    viewingProduct.image_url_4
-                  ].filter(Boolean) as string[];
-
-                  const hasMultipleDbImages = dbSlideImages.length > 1;
-                  const slideImages = isTomato 
-                    ? tomatoImages 
-                    : (hasMultipleDbImages ? dbSlideImages : [viewingProduct.image_url, viewingProduct.image_url, viewingProduct.image_url]);
-                  
-                  // Shape-specific classnames for non-tomato products to create different visual shapes
-                  let imgClass = "max-h-[85%] max-w-[85%] object-contain transition-all duration-500 hover:scale-105";
-                  if (!isTomato && !hasMultipleDbImages) {
-                    if (productSlideIndex === 1) {
-                      imgClass = "w-56 h-56 object-cover rounded-full border-4 border-[#E4C560]/40 shadow-xl transition-all duration-500 hover:scale-105";
-                    } else if (productSlideIndex === 2) {
-                      imgClass = "w-[90%] h-44 object-cover rounded-3xl border-2 border-emerald-600/30 shadow-lg transition-all duration-500 hover:scale-105";
-                    }
-                  }
-                  
-                  return (
-                    <>
-                      <img 
-                        src={slideImages[productSlideIndex]} 
-                        alt={viewingProduct.name}
-                        onError={handleImageError}
-                        className={imgClass}
-                      />
-
-                      {/* Left Arrow Button */}
-                      <button
-                        onClick={() => setProductSlideIndex((prev) => (prev - 1 + slideImages.length) % slideImages.length)}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#1D0130]/95 backdrop-blur-md/75 hover:bg-emerald-600 text-gray-200 hover:text-white p-2 rounded-full transition-all duration-300 border border-purple-900/40 shadow-md z-20"
-                      >
-                        <ArrowLeft size={16} />
-                      </button>
-
-                      {/* Right Arrow Button */}
-                      <button
-                        onClick={() => setProductSlideIndex((prev) => (prev + 1) % slideImages.length)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#1D0130]/95 backdrop-blur-md/75 hover:bg-emerald-600 text-gray-200 hover:text-white p-2 rounded-full transition-all duration-300 border border-purple-900/40 shadow-md z-20"
-                      >
-                        <ArrowRight size={16} />
-                      </button>
-
-                      {/* View Indicator Badge */}
-                      {!isTomato && !hasMultipleDbImages && (
-                        <span className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-xs text-white text-[9px] py-1 px-3 rounded-full font-bold tracking-wider uppercase z-20">
-                          {productSlideIndex === 0 ? "Standard Shape" : productSlideIndex === 1 ? "Magnifier Circle" : "Widescreen Crop"}
-                        </span>
-                      )}
-
-                      {!isTomato && hasMultipleDbImages && (
-                        <span className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-xs text-white text-[9px] py-1 px-3 rounded-full font-bold tracking-wider uppercase z-20">
-                          Image {productSlideIndex + 1} of {slideImages.length}
-                        </span>
-                      )}
-
-                      {/* Slide indicator dots */}
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1 z-20">
-                        {slideImages.map((_, dotIdx) => (
-                          <div
-                            key={dotIdx}
-                            className={`h-1.5 rounded-full transition-all duration-300 ${
-                              dotIdx === productSlideIndex ? 'w-4 bg-emerald-600' : 'w-2 bg-gray-300'
-                            }`}
-                          ></div>
-                        ))}
-                      </div>
-                    </>
-                  );
-                })()}
-              </div>
-
-              {/* Right Column: Complete Details Panel */}
+              {/* Left Column: Complete Details Panel */}
               <div className="w-full md:w-1/2 p-8 flex flex-col justify-between relative text-left bg-[#1D0130]/95 backdrop-blur-md">
                 {/* Background Ambient Glows */}
                 <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -4069,6 +3985,82 @@ export default function App() {
                     </Button>
                   )}
                 </div>
+              </div>
+
+              {/* Right Column: Premium Product Image showcase */}
+              <div className="w-full md:w-1/2 bg-[#FAF8FB] p-0 flex items-center justify-center relative min-h-[300px] overflow-hidden">
+                <span className="absolute top-4 left-4 bg-[#4A0E4E] text-gray-200 text-[9px] font-extrabold py-1 px-3 rounded-full uppercase tracking-wider shadow-sm z-10">
+                  Premium Quality
+                </span>
+                
+                {(() => {
+                  const isTomato = viewingProduct.name.toLowerCase() === 'tomato';
+                  const dbSlideImages = [
+                    viewingProduct.image_url,
+                    viewingProduct.image_url_2,
+                    viewingProduct.image_url_3,
+                    viewingProduct.image_url_4
+                  ].filter(Boolean) as string[];
+
+                  const hasMultipleDbImages = dbSlideImages.length > 1;
+                  const slideImages = isTomato 
+                    ? tomatoImages 
+                    : (hasMultipleDbImages ? dbSlideImages : [viewingProduct.image_url, viewingProduct.image_url, viewingProduct.image_url]);
+                  
+                  const imgClass = "w-full h-full object-cover transition-all duration-500 hover:scale-105";
+                  
+                  return (
+                    <>
+                      <img 
+                        src={slideImages[productSlideIndex]} 
+                        alt={viewingProduct.name}
+                        onError={handleImageError}
+                        className={imgClass}
+                      />
+
+                      {/* Left Arrow Button */}
+                      <button
+                        onClick={() => setProductSlideIndex((prev) => (prev - 1 + slideImages.length) % slideImages.length)}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#1D0130]/95 backdrop-blur-md/75 hover:bg-emerald-600 text-gray-200 hover:text-white p-2 rounded-full transition-all duration-300 border border-purple-900/40 shadow-md z-20"
+                      >
+                        <ArrowLeft size={16} />
+                      </button>
+
+                      {/* Right Arrow Button */}
+                      <button
+                        onClick={() => setProductSlideIndex((prev) => (prev + 1) % slideImages.length)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#1D0130]/95 backdrop-blur-md/75 hover:bg-emerald-600 text-gray-200 hover:text-white p-2 rounded-full transition-all duration-300 border border-purple-900/40 shadow-md z-20"
+                      >
+                        <ArrowRight size={16} />
+                      </button>
+
+                      {/* View Indicator Badge */}
+                      {!isTomato && !hasMultipleDbImages && (
+                        <span className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-xs text-white text-[9px] py-1 px-3 rounded-full font-bold tracking-wider uppercase z-20">
+                          {productSlideIndex === 0 ? "Standard Shape" : productSlideIndex === 1 ? "Magnifier Circle" : "Widescreen Crop"}
+                        </span>
+                      )}
+
+                      {!isTomato && hasMultipleDbImages && (
+                        <span className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-xs text-white text-[9px] py-1 px-3 rounded-full font-bold tracking-wider uppercase z-20">
+                          Image {productSlideIndex + 1} of {slideImages.length}
+                        </span>
+                      )}
+
+                      {/* Slide indicator dots */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1 z-20">
+                        {slideImages.map((_, dotIdx) => (
+                          <div
+                            key={dotIdx}
+                            className={`h-1.5 rounded-full transition-all duration-300 ${
+                              dotIdx === productSlideIndex ? 'w-4 bg-emerald-600' : 'w-2 bg-gray-300'
+                            }`}
+                          ></div>
+                        ))}
+                      </div>
+                    </>
+                  );
+                })()}
               </div>
             </div>
           );
