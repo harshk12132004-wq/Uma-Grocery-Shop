@@ -65,11 +65,11 @@ import {
 
 // High-quality category images for the collage
 const categoryImages: Record<string, string> = {
-  'All': '/logo.png',
-  'Vegetables': '/tomato_1.jpg',
-  'Dairy': '/tomato_2.jpg',
-  'Chocolates': '/tomato_3.jpg',
-  'Masala Powder': '/tomato_4.png',
+  'All': '/cat_all.png',
+  'Vegetables': '/cat_vegetables.png',
+  'Dairy': '/cat_dairy.png',
+  'Chocolates': '/cat_chocolates.png',
+  'Masala Powder': '/cat_masala.png',
   'Oral Care': '/logo.png',
   'Personal Care': '/logo.png'
 };
@@ -445,7 +445,7 @@ export default function App() {
       subtitle: "UP TO 50% OFF",
       highlight: "Fresh Farm Vegetables",
       description: "Save big on healthy daily essentials, crisp leafy greens, and handpicked juicy fruits.",
-      image: "/tomato_1.jpg",
+      image: "/cat_vegetables.png",
       badge: "Save Big Today",
       cta: "View Offers",
       bgGradient: "from-fuchsia-950 via-purple-900 to-pink-950"
@@ -455,7 +455,7 @@ export default function App() {
       subtitle: "100% ORGANIC & PURE",
       highlight: "Farm-Fresh Milk & Cheese",
       description: "Delivering pasture-raised organic milk, butter, cheese, and farm products fresh daily.",
-      image: "/tomato_2.jpg",
+      image: "/cat_dairy.png",
       badge: "Natural Nutrition",
       cta: "Shop Dairy",
       bgGradient: "from-violet-950 via-purple-950 to-slate-950"
@@ -1481,11 +1481,11 @@ export default function App() {
                 {categoriesList.map((category, idx) => {
                   const isActive = selectedCategory === category;
                   const fallbackImages = [
-                    '/tomato_1.jpg',
-                    '/tomato_2.jpg',
-                    '/tomato_3.jpg',
-                    '/tomato_4.png',
-                    '/logo.png',
+                    '/cat_all.png',
+                    '/cat_vegetables.png',
+                    '/cat_dairy.png',
+                    '/cat_chocolates.png',
+                    '/cat_masala.png',
                   ];
                   const hash = category.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                   const dbCat = dbCategories.find(c => c.name === category);
@@ -1572,7 +1572,7 @@ export default function App() {
                   HOT SALE
                 </div>
                 <img 
-                  src="/tomato_2.jpg" 
+                  src="/cat_vegetables.png" 
                   alt="Broccoli Deal" 
                   onError={handleImageError}
                   className="w-full h-44 object-contain mx-auto transition-transform duration-500 group-hover:scale-105"
