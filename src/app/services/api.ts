@@ -32,18 +32,29 @@ function getLocalFallbackImage(url: string, contextName: string = ''): string {
     lowerContext.includes('lady') ||
     lowerContext.includes('cucumber')
   ) {
-    const index = (url.length % 4) + 1;
-    return `/tomato_${index}.jpg`;
+    return '/cat_vegetables.jpg';
+  }
+
+  if (lowerContext.includes('dairy') || lowerContext.includes('milk') || lowerContext.includes('butter') || lowerContext.includes('cheese') || lowerContext.includes('curd')) {
+    return '/cat_dairy.jpg';
+  }
+
+  if (lowerContext.includes('chocolate') || lowerContext.includes('sweet') || lowerContext.includes('candy') || lowerContext.includes('biscuit')) {
+    return '/cat_chocolates.jpg';
+  }
+
+  if (lowerContext.includes('masala') || lowerContext.includes('spice') || lowerContext.includes('powder') || lowerContext.includes('turmeric')) {
+    return '/cat_masala.jpg';
   }
   
   if (lowerUrl.includes('banner') || lowerUrl.includes('background') || lowerContext.includes('banner') || lowerContext.includes('background')) {
     return '/banner.png';
   }
   
-  // Deterministic index for other items based on the length/hash of the URL
+  // Deterministic fallback based on hash
+  const fallbacks = ['/cat_vegetables.jpg', '/cat_dairy.jpg', '/cat_chocolates.jpg', '/cat_masala.jpg', '/cat_all.jpg'];
   const hash = url.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const index = (hash % 4) + 1;
-  return `/tomato_${index}.jpg`;
+  return fallbacks[hash % fallbacks.length];
 }
 
 function replaceUnsplashUrls(obj: any): any {

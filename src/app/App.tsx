@@ -331,7 +331,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [tomatoSlideIndex, setTomatoSlideIndex] = useState(0);
   const [productSlideIndex, setProductSlideIndex] = useState(0);
-  const tomatoImages = ['/tomato_1.jpg', '/tomato_2.jpg', '/tomato_3.jpg', '/tomato_4.png'];
+  const tomatoImages = ['/cat_vegetables.jpg', '/cat_dairy.jpg', '/cat_chocolates.jpg', '/tomato_4.png'];
 
   // Admin Panel states
   const [adminTab, setAdminTab] = useState<'products' | 'feedback' | 'users'>('products');
