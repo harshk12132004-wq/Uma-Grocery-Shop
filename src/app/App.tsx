@@ -1293,8 +1293,10 @@ export default function App() {
         </div>
       </header>
 
-      {/* Mobile Search Bar Section */}
-      <div className={`transition-all duration-300 ease-in-out bg-[#1D0130]/95 backdrop-blur-md px-4 pb-4 pt-1 shadow-sm border-b border-purple-900/40 ${isSearchOpen ? 'block' : 'block md:hidden'}`}>
+      {/* Mobile Search Bar — only shows when search icon is clicked */}
+      <div className={`transition-all duration-300 ease-in-out bg-[#1D0130]/98 backdrop-blur-md px-4 border-b border-purple-900/40 overflow-hidden md:hidden ${
+        isSearchOpen ? 'max-h-24 pb-4 pt-2 opacity-100 shadow-lg' : 'max-h-0 pb-0 pt-0 opacity-0 pointer-events-none'
+      }`}>
         <TextField
           fullWidth
           size="small"
@@ -1547,48 +1549,48 @@ export default function App() {
           </section>
 
           {/* Deluxe Daily Deals Banner */}
-          <section className="py-4 px-4">
-            <div className="max-w-7xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-r from-amber-50 via-purple-50/50 to-pink-50 border border-purple-900/40 p-8 sm:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-sm">
-              <div className="space-y-4 max-w-xl text-left">
-                <span className="bg-gray-800 text-[#E4C560] py-1 px-3.5 rounded-full text-xs font-bold uppercase tracking-wider">DELUXE DEALS OF THE WEEK</span>
-                <h3 className="text-3xl font-extrabold text-[#E4C560] font-serif leading-tight">Fresh organic broccoli & veggies up to 50% discount!</h3>
-                <p className="text-gray-400 text-sm">
+          <section className="py-4 px-3 sm:px-4">
+            <div className="max-w-7xl mx-auto rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-[#1a0025] to-slate-900 border border-purple-800/30 p-6 sm:p-8 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 shadow-xl">
+              <div className="space-y-3 sm:space-y-4 max-w-xl text-left w-full lg:w-auto">
+                <span className="bg-[#E4C560] text-[#1D0130] py-1 px-3.5 rounded-full text-xs font-bold uppercase tracking-wider">DELUXE DEALS OF THE WEEK</span>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-serif leading-tight">Fresh organic broccoli &amp; veggies up to 50% discount!</h3>
+                <p className="text-gray-400 text-sm hidden sm:block">
                   Eat clean, stay healthy! Grab today's select high-grade vegetables, sourced from certified local farms. Offers end tonight!
                 </p>
-                <div className="flex items-center gap-6 pt-2">
-                  <div className="text-center bg-[#1D0130] border border-purple-900/40 p-2 w-16 rounded-xl shadow-xs">
-                    <span className="block font-bold text-white text-xl">12</span>
-                    <span className="text-[10px] text-purple-300 font-bold uppercase">Hrs</span>
+                <div className="flex items-center gap-3 sm:gap-6 pt-1 sm:pt-2">
+                  <div className="text-center bg-white/10 border border-white/20 backdrop-blur-sm p-2 w-14 sm:w-16 rounded-xl">
+                    <span className="block font-bold text-white text-lg sm:text-xl">12</span>
+                    <span className="text-[10px] text-[#E4C560] font-bold uppercase">Hrs</span>
                   </div>
-                  <div className="text-center bg-[#1D0130] border border-purple-900/40 p-2 w-16 rounded-xl shadow-xs">
-                    <span className="block font-bold text-white text-xl">45</span>
-                    <span className="text-[10px] text-purple-300 font-bold uppercase">Min</span>
+                  <div className="text-center bg-white/10 border border-white/20 backdrop-blur-sm p-2 w-14 sm:w-16 rounded-xl">
+                    <span className="block font-bold text-white text-lg sm:text-xl">45</span>
+                    <span className="text-[10px] text-[#E4C560] font-bold uppercase">Min</span>
                   </div>
-                  <div className="text-center bg-[#1D0130] border border-purple-900/40 p-2 w-16 rounded-xl shadow-xs">
-                    <span className="block font-bold text-white text-xl">30</span>
-                    <span className="text-[10px] text-purple-300 font-bold uppercase">Sec</span>
+                  <div className="text-center bg-white/10 border border-white/20 backdrop-blur-sm p-2 w-14 sm:w-16 rounded-xl">
+                    <span className="block font-bold text-white text-lg sm:text-xl">30</span>
+                    <span className="text-[10px] text-[#E4C560] font-bold uppercase">Sec</span>
                   </div>
                 </div>
               </div>
-              <div className="w-full max-w-[340px] bg-[#1D0130] border border-purple-900/40 p-6 rounded-2xl shadow-lg relative overflow-hidden group">
-                <div className="absolute top-3 left-3 bg-red-600 text-gray-200 font-bold text-[10px] uppercase py-0.5 px-2 rounded">
+              <div className="w-full max-w-[300px] sm:max-w-[340px] bg-white/5 border border-white/10 p-5 sm:p-6 rounded-2xl shadow-lg relative overflow-hidden group backdrop-blur-sm">
+                <div className="absolute top-3 left-3 bg-red-500 text-white font-bold text-[10px] uppercase py-0.5 px-2 rounded-full">
                   HOT SALE
                 </div>
                 <img 
                   src="/cat_vegetables.jpg" 
                   alt="Broccoli Deal" 
                   onError={handleImageError}
-                  className="w-full h-44 object-contain mx-auto transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-40 sm:h-44 object-contain mx-auto transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="text-center mt-3">
-                  <h4 className="font-bold text-white">Organic Fresh Broccoli</h4>
+                  <h4 className="font-bold text-white text-sm sm:text-base">Organic Fresh Broccoli</h4>
                   <div className="flex items-center justify-center gap-1 my-1">
-                    {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-amber-400 text-emerald-600" />)}
+                    {[...Array(5)].map((_, i) => <Star key={i} size={13} className="fill-amber-400 text-amber-400" />)}
                   </div>
-                  <p className="text-xs text-purple-300 mb-2">1.0 kg unit</p>
+                  <p className="text-xs text-gray-400 mb-2">1.0 kg unit</p>
                   <div className="flex items-center justify-center gap-3">
-                    <span className="text-xl font-bold text-white">₹80.00</span>
-                    <span className="text-xs line-through text-purple-300">₹160.00</span>
+                    <span className="text-xl font-bold text-[#E4C560]">₹80.00</span>
+                    <span className="text-xs line-through text-gray-500">₹160.00</span>
                   </div>
                 </div>
               </div>
