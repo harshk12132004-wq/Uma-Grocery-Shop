@@ -172,7 +172,7 @@ const getDbCategoryName = (category: string): string => {
   if (name === 'dairy products' || name === 'farm dairy fresh' || name === 'dairy' || name === 'dairy-products' || name === 'farm-dairy-fresh') {
     return 'Dairy';
   }
-  if (name === 'oil & spices' || name === 'indian spices' || name === 'masala powder' || name === 'oil-spices' || name === 'indian-spices' || name === 'masala-powder') {
+  if (name === 'oil & spices' || name === 'indian spices' || name === 'masala powder' || name === 'oil-spices' || name === 'indian-spices' || name === 'masala-powder' || name === 'spices') {
     return 'Masala Powder';
   }
   if (name === 'oral care' || name === 'oral & brush care' || name === 'oral &brush care' || name === 'oral-care' || name === 'oral-brush-care') {
@@ -190,7 +190,10 @@ const getDbCategoryName = (category: string): string => {
   if (name === 'beverages' || name === 'drinks' || name === 'beverages') {
     return 'Drinks';
   }
-  if (name === 'personal care' || name === 'soap') {
+  if (name === 'personal care') {
+    return 'Personal Care';
+  }
+  if (name === 'bath & body soap' || name === 'soap') {
     return 'Soap';
   }
   if (name === 'shamppo' || name === 'shampoo') {
@@ -204,9 +207,39 @@ const getCategoryDisplayName = (dbCatName: string): string => {
   const name = dbCatName.toLowerCase().trim();
   if (name === 'chocolates') return 'Snacks & Biscuits';
   if (name === 'dairy') return 'Dairy Products';
-  if (name === 'masala powder') return 'Oil & Spices';
+  if (name === 'masala powder' || name === 'spices') return 'Oil & Spices';
+  if (name === 'dal') return 'Pulses & Dal';
+  if (name === 'flour') return 'Rice, Grains & Flour';
+  if (name === 'drinks') return 'Beverages';
+  if (name === 'soap') return 'Bath & Body Soap';
+  if (name === 'personal care') return 'Personal Care';
+  if (name === 'oral care') return 'Oral & Brush Care';
   if (name === 'shamppo' || name === 'shampoo') return 'Shampoo';
   return dbCatName;
+};
+
+const getCategoryLabel = (catName: string): string => {
+  if (catName === 'All') return '🛍️ Show All Products';
+  const display = getCategoryDisplayName(catName);
+  const emojis: Record<string, string> = {
+    'Vegetables': '🥦',
+    'Dairy': '🥛',
+    'Chocolates': '🍫',
+    'Masala Powder': '🌶️',
+    'Oral Care': '🪥',
+    'Personal Care': '🧼',
+    'Cleaner': '🧹',
+    'Dal': '🫘',
+    'Drinks': '🥤',
+    'Flour': '🌾',
+    'Oil': '🛢️',
+    'Plastic': '🪣',
+    'Pooja': '🪔',
+    'Shamppo': '🧴',
+    'Soap': '🧼'
+  };
+  const emoji = emojis[catName] || '✨';
+  return `${emoji} ${display}`;
 };
 
 const toSingular = (word: string): string => {
@@ -378,9 +411,10 @@ export default function App() {
     const items = ["All Products", ...baseItems];
     
     return {
-      category: hc ? hc.category : getCategoryDisplayName(cat.name),
+      category: getCategoryDisplayName(cat.name),
+      dbName: cat.name,
       icon: hc ? hc.icon : "🛒",
-      slug: hc ? hc.slug : cat.name.toLowerCase().replace(/\s+/g, '-'),
+      slug: categoryToSlug[cat.name] || cat.name.toLowerCase().replace(/\s+/g, '-'),
       items: items.slice(0, 15)
     };
   });
@@ -569,7 +603,7 @@ export default function App() {
       } else if (path.startsWith('/category/')) {
         const slug = path.replace('/category/', '');
         const cat = slugToCategory[slug] || slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        setSelectedCategory(cat);
+        setSelectedCategory(getDbCategoryName(cat));
         
         // Check for sub_category in URL search params
         const params = new URLSearchParams(window.location.search);
@@ -1117,7 +1151,7 @@ export default function App() {
                           <div 
                             onClick={() => {
                               window.history.pushState({}, '', `/category/${sec.slug}`);
-                              setSelectedCategory(sec.category);
+                              setSelectedCategory(sec.dbName);
                               setSelectedSubCategory(null);
                               setCurrentView('category-page');
                               setSearchQuery('');
@@ -1143,7 +1177,7 @@ export default function App() {
                                       window.history.pushState({}, '', `/category/${sec.slug}`);
                                     }
                                     
-                                    setSelectedCategory(sec.category);
+                                    setSelectedCategory(sec.dbName);
                                     setSearchQuery('');
                                     setSelectedSubCategory(subCatValue);
                                     setCurrentView('category-page');
@@ -1308,9 +1342,10 @@ export default function App() {
             if (val) {
               const match = products.find(p => p.name.toLowerCase().includes(val.toLowerCase()) || p.description?.toLowerCase().includes(val.toLowerCase()));
               if (match) {
-                const matchedCat = getCategoryDisplayName(match.category_name);
-                const slug = categoryToSlug[matchedCat] || matchedCat.toLowerCase().replace(/\s+/g, '-');
-                setSelectedCategory(matchedCat);
+                const dbCatName = match.category_name;
+                const displayCat = getCategoryDisplayName(dbCatName);
+                const slug = categoryToSlug[displayCat] || displayCat.toLowerCase().replace(/\s+/g, '-');
+                setSelectedCategory(dbCatName);
                 setCurrentView('category-page');
                 window.history.pushState({}, '', `/category/${slug}?search=${encodeURIComponent(val.toLowerCase())}`);
               } else {
@@ -1506,7 +1541,7 @@ export default function App() {
                   const hash = category.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                   const dbCat = dbCategories.find(c => c.name === category);
                   const imgUrl = dbCat?.image_url || categoryImages[category] || fallbackImages[hash % fallbackImages.length];
-                  const label = categoryLabels[category] || `✨ ${category}`;
+                  const label = getCategoryLabel(category);
                   
                   // Give some collage grid span items for variety
                   const isLarge = idx === 0 || idx === 4;
@@ -1630,7 +1665,7 @@ export default function App() {
             bannerGradient = "from-emerald-950 via-[#1D0130] to-teal-950";
             bannerIcon = "🥦";
           } else if (dbCatName === 'Chocolates') {
-            bannerTitle = `${selectedCategory} Delights`;
+            bannerTitle = `${displayCat} Delights`;
             bannerHighlight = "Sweets, premium dark chocolates, cookies & organic treats";
             bannerGradient = "from-amber-950 via-[#1D0130] to-rose-950";
             bannerIcon = "🍫";
@@ -2607,7 +2642,7 @@ export default function App() {
                       }}
                       className="hover:text-emerald-600 transition-colors uppercase tracking-wider font-semibold text-[11px]"
                     >
-                      Shop {cat}
+                      Shop {getCategoryDisplayName(cat)}
                     </button>
                   </li>
                 ))}
@@ -2691,7 +2726,7 @@ export default function App() {
                 }}
                 sx={{ color: 'gray', justifyContent: 'flex-start', textTransform: 'none', pl: 4 }}
               >
-                {cat.name}
+                {getCategoryDisplayName(cat.name)}
               </Button>
             ))}
             <div className="border-t border-purple-900/40 my-2"></div>

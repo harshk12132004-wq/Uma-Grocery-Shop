@@ -49,14 +49,20 @@ import {
   Order,
 } from '../services/api';
 
-const getCategoryLabel = (name: string): string => {
-  const mapping: Record<string, string> = {
-    'Dairy': 'Dairy Products',
-    'Chocolates': 'Snacks & Biscuits',
-    'Masala Powder': 'Oil & Spices',
-    'Shamppo': 'Shampoo',
-  };
-  return mapping[name] || name;
+const getCategoryLabel = (dbCatName: string): string => {
+  if (!dbCatName) return '';
+  const name = dbCatName.toLowerCase().trim();
+  if (name === 'chocolates') return 'Snacks & Biscuits';
+  if (name === 'dairy') return 'Dairy Products';
+  if (name === 'masala powder' || name === 'spices') return 'Oil & Spices';
+  if (name === 'dal') return 'Pulses & Dal';
+  if (name === 'flour') return 'Rice, Grains & Flour';
+  if (name === 'drinks') return 'Beverages';
+  if (name === 'soap') return 'Bath & Body Soap';
+  if (name === 'personal care') return 'Personal Care';
+  if (name === 'oral care') return 'Oral & Brush Care';
+  if (name === 'shamppo' || name === 'shampoo') return 'Shampoo';
+  return dbCatName;
 };
 
 interface AdminPanelProps {
@@ -64,7 +70,7 @@ interface AdminPanelProps {
   categories: string[];
   currentUser: UserType | null;
   onProductsChanged: () => void;
-  onNavigateHome: () => 
+  onNavigateHome: () =>
     void;
   onLogout: () => void;
 }
@@ -88,7 +94,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
   const [isProductDialogOpen, setIsProductDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
-  
+
   // Category state
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [categorySearch, setCategorySearch] = useState('');
@@ -112,7 +118,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
   const [formUnit, setFormUnit] = useState('1.0 kg');
   const [formDescription, setFormDescription] = useState('');
   const [formInStock, setFormInStock] = useState(true);
-  
+
   // Delete confirm states
   const [deleteCategoryConfirmId, setDeleteCategoryConfirmId] = useState<number | null>(null);
 
@@ -188,7 +194,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
       console.error('Failed to update order status:', err);
       const errMsg = err.response?.data?.error || err.response?.data?.detail || 'Failed to update order status';
       setSnackbar({ open: true, message: errMsg, severity: 'error' });
-      
+
       // If unauthorized or forbidden, prompt them to re-authenticate as admin after 2 seconds
       if (err.response?.status === 403 || err.response?.status === 401) {
         setTimeout(() => {
@@ -500,15 +506,15 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
   );
 
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = 
+    const matchesSearch =
       String(order.id).includes(orderSearch) ||
       (order.user_name || '').toLowerCase().includes(orderSearch.toLowerCase()) ||
       (order.phone || '').includes(orderSearch) ||
       (order.delivery_address || '').toLowerCase().includes(orderSearch.toLowerCase()) ||
       order.items.some(item => item.product_name.toLowerCase().includes(orderSearch.toLowerCase()));
-      
+
     const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
-    
+
     return matchesSearch && matchesStatus;
   });
 
@@ -558,7 +564,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
             <p className="text-xs text-white/50 mt-1">Welcome back, {currentUser?.first_name || currentUser?.username || 'Admin'}</p>
           </div>
           <div className="flex items-center gap-3">
-            
+
             <Button
               onClick={fetchAllData}
               variant="outlined"
@@ -602,11 +608,10 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
-                activeTab === tab.key
+              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${activeTab === tab.key
                   ? 'bg-gradient-to-r from-[#1D0130] to-purple-800 text-[#E4C560] shadow-lg shadow-purple-200'
                   : 'text-purple-700 hover:bg-purple-50'
-              }`}
+                }`}
             >
               {tab.icon}
               <span className="hidden sm:inline">{tab.label}</span>
@@ -868,7 +873,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                           <button onClick={() => setDeleteCategoryConfirmId(cat.id)} className="p-2 text-rose-600 hover:bg-rose-100 rounded-full transition-colors" title="Delete">
                             <Trash2 size={16} />
                           </button>
-                          
+
                           {/* Inline Delete Confirm */}
                           {deleteCategoryConfirmId === cat.id && (
                             <div className="absolute right-12 mt-[-30px] bg-white border border-red-200 shadow-xl rounded-lg p-3 z-10 animate-fade-in flex items-center gap-3">
@@ -893,7 +898,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
           </div>
         )}
 
-                {/* ===== USERS TAB ===== */}
+        {/* ===== USERS TAB ===== */}
         {activeTab === 'users' && (
           <div className="space-y-6 animate-fade-in max-w-7xl mx-auto p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
@@ -1130,7 +1135,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                       </div>
                     )}
                   </div>
-                  
+
                   {offer.image_url && (
                     <div className="mt-4 overflow-hidden rounded-xl h-32 w-full">
                       <img src={offer.image_url} alt={offer.title} className="w-full h-full object-cover rounded-xl" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -1173,7 +1178,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                   }}
                 />
               </div>
-              
+
               {/* Status Filter Chips */}
               <div className="flex flex-wrap gap-2">
                 {[
@@ -1187,11 +1192,10 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                   <button
                     key={chip.key}
                     onClick={() => setStatusFilter(chip.key)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                      statusFilter === chip.key
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 ${statusFilter === chip.key
                         ? 'bg-[#1D0130] text-[#E4C560] shadow-md shadow-purple-100 border border-[#1D0130]'
                         : 'bg-white text-purple-700 border border-purple-100 hover:bg-purple-50'
-                    }`}
+                      }`}
                   >
                     {chip.label}
                   </button>
@@ -1219,12 +1223,12 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                   delivered: { bg: 'bg-emerald-50 border-emerald-200', text: 'text-emerald-700', label: 'Delivered' },
                   cancelled: { bg: 'bg-rose-50 border-rose-200', text: 'text-rose-700', label: 'Cancelled' },
                 };
-                
+
                 const currentStyle = statusStyles[order.status] || { bg: 'bg-gray-50 border-gray-200', text: 'text-gray-700', label: order.status };
 
                 return (
-                  <div 
-                    key={order.id} 
+                  <div
+                    key={order.id}
                     className="bg-white rounded-3xl border border-purple-100 shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row justify-between gap-6 hover:shadow-lg transition-all duration-300"
                   >
                     {/* Left: Info */}
@@ -1236,7 +1240,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                         </span>
                         <span className="text-xs text-gray-400 font-medium">{placedDate}</span>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-purple-50/40 p-4 rounded-2xl border border-purple-100/50">
                         <div>
                           <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">Customer Details</span>
@@ -1248,7 +1252,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                           <p className="text-xs text-gray-600 mt-1 leading-relaxed">{order.delivery_address}</p>
                         </div>
                       </div>
-                      
+
                       {/* Items Summaries */}
                       <div>
                         <span className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Purchased Items</span>
@@ -1277,61 +1281,57 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                         <h4 className="text-2xl font-black text-[#1D0130]">₹{parseFloat(order.total_amount.toString()).toFixed(2)}</h4>
                         <span className="text-[10px] text-gray-400 block font-medium">(includes ₹{parseFloat(order.delivery_charge.toString()).toFixed(2)} delivery charge)</span>
                       </div>
-                      
+
                       {/* Update Status Controls */}
                       <div className="space-y-2 mt-6 lg:mt-0">
                         <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">Update Delivery Status</label>
-                        
+
                         <div className="grid grid-cols-2 gap-2">
                           <button
                             onClick={() => handleUpdateOrderStatus(order.id, 'confirmed')}
                             disabled={order.status === 'confirmed' || order.status === 'cancelled' || order.status === 'delivered'}
-                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${
-                              order.status === 'confirmed'
+                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${order.status === 'confirmed'
                                 ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
                                 : 'bg-white border-blue-100 text-blue-600 hover:bg-blue-50/50 disabled:opacity-40'
-                            }`}
+                              }`}
                           >
                             Confirm
                           </button>
-                          
+
                           <button
                             onClick={() => handleUpdateOrderStatus(order.id, 'processing')}
                             disabled={order.status === 'processing' || order.status === 'cancelled' || order.status === 'delivered'}
-                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${
-                              order.status === 'processing'
+                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${order.status === 'processing'
                                 ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm'
                                 : 'bg-white border-indigo-100 text-indigo-600 hover:bg-indigo-50/50 disabled:opacity-40'
-                            }`}
+                              }`}
                           >
                             Process
                           </button>
-                          
+
                           <button
                             onClick={() => handleUpdateOrderStatus(order.id, 'out_for_delivery')}
                             disabled={order.status === 'out_for_delivery' || order.status === 'cancelled' || order.status === 'delivered'}
-                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${
-                              order.status === 'out_for_delivery'
+                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${order.status === 'out_for_delivery'
                                 ? 'bg-orange-600 border-orange-600 text-white shadow-sm'
                                 : 'bg-white border-orange-100 text-orange-600 hover:bg-orange-50/50 disabled:opacity-40'
-                            }`}
+                              }`}
                           >
                             Out for Deliv
                           </button>
-                          
+
                           <button
                             onClick={() => handleUpdateOrderStatus(order.id, 'delivered')}
                             disabled={order.status === 'delivered' || order.status === 'cancelled'}
-                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${
-                              order.status === 'delivered'
+                            className={`px-3 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase border transition-all duration-300 ${order.status === 'delivered'
                                 ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
                                 : 'bg-white border-emerald-100 text-emerald-600 hover:bg-emerald-50/50 disabled:opacity-40'
-                            }`}
+                              }`}
                           >
                             Deliver
                           </button>
                         </div>
-                        
+
                         <button
                           onClick={() => handleUpdateOrderStatus(order.id, 'cancelled')}
                           disabled={order.status === 'cancelled' || order.status === 'delivered'}
@@ -1345,7 +1345,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                 );
               })}
             </div>
-            
+
             {filteredOrders.length === 0 && (
               <div className="text-center py-16 bg-white rounded-3xl border border-purple-100">
                 <ShoppingBag size={48} className="mx-auto text-gray-300 mb-3" />
@@ -1415,12 +1415,12 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
               />
             </div>
           </div>
-          
+
           {formCategoryImage && (
-              <div className="flex items-center gap-4 p-4 mt-2 bg-purple-50/50 rounded-xl border border-purple-100">
-                <img src={formCategoryImage} alt="Preview" className="w-16 h-16 rounded-lg object-cover border border-purple-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                <p className="text-sm text-gray-600 font-medium">Image Preview</p>
-              </div>
+            <div className="flex items-center gap-4 p-4 mt-2 bg-purple-50/50 rounded-xl border border-purple-100">
+              <img src={formCategoryImage} alt="Preview" className="w-16 h-16 rounded-lg object-cover border border-purple-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              <p className="text-sm text-gray-600 font-medium">Image Preview</p>
+            </div>
           )}
 
           <div className="mb-6 mt-6">
@@ -1442,12 +1442,12 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
               />
             </div>
           </div>
-          
+
           {formDedicatedImage && (
-              <div className="flex items-center gap-4 p-4 mt-2 bg-indigo-50/50 rounded-xl border border-indigo-100">
-                <img src={formDedicatedImage} alt="Background Preview" className="w-40 h-16 rounded-lg object-cover border border-indigo-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                <p className="text-sm text-gray-600 font-medium">Background Image Preview</p>
-              </div>
+            <div className="flex items-center gap-4 p-4 mt-2 bg-indigo-50/50 rounded-xl border border-indigo-100">
+              <img src={formDedicatedImage} alt="Background Preview" className="w-40 h-16 rounded-lg object-cover border border-indigo-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              <p className="text-sm text-gray-600 font-medium">Background Image Preview</p>
+            </div>
           )}
 
           <div className="pt-4 flex justify-end gap-3">
@@ -1498,7 +1498,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
         </DialogTitle>
         <DialogContent sx={{ pt: 4, pb: 2, px: 4, backgroundColor: '#FDFBFD' }}>
           <div className="space-y-5 mt-1">
-            
+
             <div>
               <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Product Name <span className="text-red-500">*</span></label>
               <input
@@ -1580,11 +1580,10 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                       key={sub}
                       type="button"
                       onClick={() => setFormSubCategory(sub)}
-                      className={`text-xs px-3 py-1.5 rounded-full border transition-all font-medium ${
-                        formSubCategory === sub
+                      className={`text-xs px-3 py-1.5 rounded-full border transition-all font-medium ${formSubCategory === sub
                           ? 'bg-[#1D0130] text-[#E4C560] border-[#1D0130] shadow-md'
                           : 'bg-purple-50 text-[#4A0E4E] border-purple-200 hover:bg-purple-100 hover:border-purple-300'
-                      }`}
+                        }`}
                     >
                       {sub}
                     </button>
@@ -1612,7 +1611,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                 />
               </div>
             </div>
-            
+
             {formImageUrl && (
               <div className="flex items-center gap-4 p-4 bg-purple-50/50 rounded-xl border border-purple-100">
                 <img src={formImageUrl} alt="Preview" className="w-16 h-16 rounded-lg object-cover border border-purple-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -1639,7 +1638,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                 />
               </div>
             </div>
-            
+
             {formImageUrl2 && (
               <div className="flex items-center gap-4 p-4 bg-purple-50/50 rounded-xl border border-purple-100">
                 <img src={formImageUrl2} alt="Preview 2" className="w-16 h-16 rounded-lg object-cover border border-purple-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -1666,7 +1665,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                 />
               </div>
             </div>
-            
+
             {formImageUrl3 && (
               <div className="flex items-center gap-4 p-4 bg-purple-50/50 rounded-xl border border-purple-100">
                 <img src={formImageUrl3} alt="Preview 3" className="w-16 h-16 rounded-lg object-cover border border-purple-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -1693,7 +1692,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                 />
               </div>
             </div>
-            
+
             {formImageUrl4 && (
               <div className="flex items-center gap-4 p-4 bg-purple-50/50 rounded-xl border border-purple-100">
                 <img src={formImageUrl4} alt="Preview 4" className="w-16 h-16 rounded-lg object-cover border border-purple-200 shadow-sm" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -1773,7 +1772,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
         </DialogTitle>
         <DialogContent sx={{ pt: 4, pb: 2, px: 4, backgroundColor: '#FDFBFD' }}>
           <div className="space-y-5 mt-1">
-            
+
             <div>
               <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Offer Title <span className="text-red-500">*</span></label>
               <input
