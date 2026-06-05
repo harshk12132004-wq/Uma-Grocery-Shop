@@ -7,7 +7,22 @@ django.setup()
 from api.models import Category, Product
 
 
+from django.core.management import call_command
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+fixture_path = BASE_DIR / 'catalog_data.json'
+
+
 def populate_database():
+    if os.path.exists(fixture_path):
+        print(f"Loading local database fixture from {fixture_path}...")
+        call_command('loaddata', str(fixture_path))
+        print("Database populated from catalog_data.json successfully!")
+        print(f"Categories: {Category.objects.count()}")
+        print(f"Products: {Product.objects.count()}")
+        return
+
     print("Creating categories...")
 
     vegetables, _ = Category.objects.get_or_create(name='Vegetables', defaults={'description': 'Fresh vegetables'})
