@@ -208,6 +208,32 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
     }
   };
 
+  // File upload helper converting selected file to Base64
+  const handleImageUpload = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setImageState: (url: string) => void
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      setSnackbar({
+        open: true,
+        message: 'Image size must be less than 2MB',
+        severity: 'error'
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === 'string') {
+        setImageState(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Product form helpers
   const resetProductForm = () => {
     setFormName('');
@@ -1370,14 +1396,23 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
           </div>
 
           <div className="mb-6">
-            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Category Image URL (Optional)</label>
+            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Category Image (Optional)</label>
             <input
               type="text"
               value={formCategoryImage}
               onChange={(e) => setFormCategoryImage(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#E4C560] transition-shadow"
-              placeholder="https://..."
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#E4C560] transition-shadow mb-2"
+              placeholder="Paste image URL (https://...)"
             />
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400">or</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, setFormCategoryImage)}
+                className="text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+              />
+            </div>
           </div>
           
           {formCategoryImage && (
@@ -1388,14 +1423,23 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
           )}
 
           <div className="mb-6 mt-6">
-            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Dedicated Category Page Background Image URL (Optional)</label>
+            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Dedicated Category Page Background Image (Optional)</label>
             <input
               type="text"
               value={formDedicatedImage}
               onChange={(e) => setFormDedicatedImage(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#E4C560] transition-shadow"
-              placeholder="https://... (Full-size horizontal background)"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#E4C560] transition-shadow mb-2"
+              placeholder="Paste background image URL (https://...)"
             />
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400">or</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, setFormDedicatedImage)}
+                className="text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer"
+              />
+            </div>
           </div>
           
           {formDedicatedImage && (
@@ -1545,18 +1589,24 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                     </button>
                   ))}
                 </div>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Image URL <span className="text-red-500">*</span></label>
+                       <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Image (URL or Local File) <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 value={formImageUrl}
                 onChange={(e) => setFormImageUrl(e.target.value)}
-                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm"
+                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm mb-2"
                 placeholder="https://example.com/image.jpg"
               />
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">or</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, setFormImageUrl)}
+                  className="text-xs text-gray-500 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+                />
+              </div>
             </div>
             
             {formImageUrl && (
@@ -1567,14 +1617,23 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
             )}
 
             <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Slide Image 2 URL (Optional)</label>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Slide Image 2 (Optional)</label>
               <input
                 type="text"
                 value={formImageUrl2}
                 onChange={(e) => setFormImageUrl2(e.target.value)}
-                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm"
+                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm mb-2"
                 placeholder="https://example.com/slide2.jpg"
               />
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">or</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, setFormImageUrl2)}
+                  className="text-xs text-gray-500 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+                />
+              </div>
             </div>
             
             {formImageUrl2 && (
@@ -1585,14 +1644,23 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
             )}
 
             <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Slide Image 3 URL (Optional)</label>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Slide Image 3 (Optional)</label>
               <input
                 type="text"
                 value={formImageUrl3}
                 onChange={(e) => setFormImageUrl3(e.target.value)}
-                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm"
+                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm mb-2"
                 placeholder="https://example.com/slide3.jpg"
               />
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">or</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, setFormImageUrl3)}
+                  className="text-xs text-gray-500 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+                />
+              </div>
             </div>
             
             {formImageUrl3 && (
@@ -1603,14 +1671,23 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
             )}
 
             <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Slide Image 4 URL (Optional)</label>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Slide Image 4 (Optional)</label>
               <input
                 type="text"
                 value={formImageUrl4}
                 onChange={(e) => setFormImageUrl4(e.target.value)}
-                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm"
+                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm mb-2"
                 placeholder="https://example.com/slide4.jpg"
               />
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">or</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, setFormImageUrl4)}
+                  className="text-xs text-gray-500 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+                />
+              </div>
             </div>
             
             {formImageUrl4 && (
@@ -1742,14 +1819,23 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Offer Banner Image URL (Optional)</label>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Offer Banner Image (Optional)</label>
               <input
                 type="text"
                 value={formOfferImageUrl}
                 onChange={(e) => setFormOfferImageUrl(e.target.value)}
-                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm"
+                className="w-full bg-white border border-gray-200 text-gray-800 text-sm rounded-xl focus:ring-2 focus:ring-[#E4C560] focus:border-transparent block p-3.5 transition-all shadow-sm mb-2"
                 placeholder="https://example.com/banner.jpg"
               />
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">or</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, setFormOfferImageUrl)}
+                  className="text-xs text-gray-500 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+                />
+              </div>
             </div>
 
             {formOfferImageUrl && (
