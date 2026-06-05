@@ -277,6 +277,11 @@ export const adminAPI = {
   deleteFeedback: async (id: number): Promise<void> => {
     await api.delete(`/feedback/${id}/`);
   },
+
+  seedDatabase: async (): Promise<any> => {
+    const response = await api.post('/db/seed/');
+    return response.data;
+  },
 };
 
 // Categories

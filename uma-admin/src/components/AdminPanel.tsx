@@ -123,6 +123,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
   const [deleteCategoryConfirmId, setDeleteCategoryConfirmId] = useState<number | null>(null);
 
   const [formSaving, setFormSaving] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
 
   // Feedback state
   const [feedbacks, setFeedbacks] = useState<any[]>([]);
@@ -184,6 +185,20 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
   useEffect(() => {
     fetchAllData();
   }, []);
+
+  const handleSyncDatabase = async () => {
+    setSyncLoading(true);
+    try {
+      await adminAPI.seedDatabase();
+      setSnackbar({ open: true, message: 'Live database catalog seeded from catalog_data.json successfully!', severity: 'success' });
+      fetchAllData();
+    } catch (err: any) {
+      console.error('Failed to sync database:', err);
+      const msg = err.response?.data?.error || err.response?.data?.detail || 'Failed to sync database';
+      setSnackbar({ open: true, message: msg, severity: 'error' });
+    }
+    setSyncLoading(false);
+  };
 
   const handleUpdateOrderStatus = async (orderId: number, status: string) => {
     try {
@@ -565,6 +580,24 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
           </div>
           <div className="flex items-center gap-3">
 
+            <Button
+              onClick={handleSyncDatabase}
+              disabled={syncLoading}
+              variant="contained"
+              sx={{
+                background: 'linear-gradient(90deg, #E4C560 0%, #F5D777 100%)',
+                color: '#1D0130',
+                textTransform: 'none',
+                fontWeight: 'bold',
+                borderRadius: '12px',
+                px: 3,
+                boxShadow: 'none',
+                '&:hover': { background: 'linear-gradient(90deg, #C7AB4B 0%, #E4C560 100%)', boxShadow: 'none' },
+                '&:disabled': { opacity: 0.7 }
+              }}
+            >
+              {syncLoading ? <CircularProgress size={20} sx={{ color: '#1D0130' }} /> : '⚡ Sync Live Database'}
+            </Button>
             <Button
               onClick={fetchAllData}
               variant="outlined"

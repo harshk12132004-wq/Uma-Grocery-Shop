@@ -645,3 +645,16 @@ class OfferViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(is_active=True)
         return queryset
 
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def seed_db_view(request):
+    try:
+        from populate_db import populate_database
+        populate_database()
+        return Response({'message': 'Database seeded successfully from catalog_data.json!'})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+

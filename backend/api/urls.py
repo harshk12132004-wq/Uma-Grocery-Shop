@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    register_view, login_view, logout_view, current_user_view, send_otp_view, contact_feedback_view,
+    register_view, login_view, logout_view, current_user_view, send_otp_view, contact_feedback_view, seed_db_view,
     CategoryViewSet, ProductViewSet, CartViewSet, OrderViewSet, FeedbackViewSet, AdminUsersViewSet, OfferViewSet
 )
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('auth/logout/', logout_view, name='logout'),
     path('auth/user/', current_user_view, name='current-user'),
     path('contact/', contact_feedback_view, name='contact'),
+    path('db/seed/', seed_db_view, name='seed-db'),
     path('', include(router.urls)),
 ]
 
