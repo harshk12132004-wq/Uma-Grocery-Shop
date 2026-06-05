@@ -200,7 +200,7 @@
         "name": "Amul Dark Chocolate Bar",
         "price": "45.00",
         "category": 3,
-        "image_url": "https://cdn.zeptonow.com/production/tr:w-312,ar-1500-1500,pr-true,f-auto,,q-40/cms/product_variant/c19a2363-bf71-4841-8ba5-b5d89126b032.jpeg",
+        "image_url": "/amul_dark_chocolate_hd.png",
         "dedicated_image_url": null,
         "image_url_2": null,
         "image_url_3": null,
@@ -210,7 +210,7 @@
         "sub_category": "Chocolate",
         "in_stock": true,
         "created_at": "2026-05-27T05:23:55.301Z",
-        "updated_at": "2026-06-02T05:40:43.789Z"
+        "updated_at": "2026-06-05T11:31:36.351Z"
     }
 },
 {
@@ -440,7 +440,7 @@
         "name": "Britannia Milk Bikis Milky Sandwich Creme Biscuits",
         "price": "46.00",
         "category": 3,
-        "image_url": "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/NI_CATALOG/IMAGES/CIW/2025/7/8/9f60dbec-6eba-4215-b3ea-d30db5247c89_2874_1.png",
+        "image_url": "/milk_bikis_hd.png",
         "dedicated_image_url": null,
         "image_url_2": null,
         "image_url_3": null,
@@ -450,7 +450,7 @@
         "sub_category": "Cookie",
         "in_stock": true,
         "created_at": "2026-06-01T08:43:35.153Z",
-        "updated_at": "2026-06-02T05:40:19.338Z"
+        "updated_at": "2026-06-05T11:31:36.329Z"
     }
 },
 {
@@ -520,7 +520,7 @@
         "name": "Banana Chips",
         "price": "40.00",
         "category": 3,
-        "image_url": "https://www.angroos.com/wp-content/uploads/2023/02/500gm-1-scaled.jpg",
+        "image_url": "/banana_chips_hd.png",
         "dedicated_image_url": null,
         "image_url_2": null,
         "image_url_3": null,
@@ -530,7 +530,7 @@
         "sub_category": "Chips",
         "in_stock": true,
         "created_at": "2026-06-02T06:37:04.936Z",
-        "updated_at": "2026-06-02T06:37:04.936Z"
+        "updated_at": "2026-06-05T11:31:36.342Z"
     }
 },
 {
