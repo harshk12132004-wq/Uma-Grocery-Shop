@@ -120,6 +120,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5175",
     "http://127.0.0.1:5175",
     "https://uma-grocery-shop.vercel.app",
+    "https://admin-uma-grocery-shop.vercel.app",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
