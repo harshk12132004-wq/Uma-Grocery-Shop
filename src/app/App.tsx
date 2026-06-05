@@ -1397,13 +1397,13 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Slide Image Card — transparent bg, white border, smaller border-radius */}
-                  <div className="flex-shrink-0 w-[140px] h-[140px] sm:w-[260px] sm:h-[220px] md:w-[400px] md:h-[300px] relative mt-2 md:mt-0 transition-transform duration-700 hover:scale-105 rounded-xl border border-white/15 shadow-xl overflow-hidden bg-transparent">
+                  {/* Slide Image — border radius reduced directly on the image */}
+                  <div className="flex-shrink-0 w-[140px] h-[140px] sm:w-[260px] sm:h-[220px] md:w-[400px] md:h-[300px] relative mt-2 md:mt-0 transition-transform duration-700 hover:scale-105">
                     <img
                       src={slide.image}
                       alt={slide.title}
                       onError={handleImageError}
-                      className="w-full h-full object-contain p-2 drop-shadow-xl"
+                      className="w-full h-full object-cover rounded-xl drop-shadow-xl"
                     />
                   </div>
                 </div>
