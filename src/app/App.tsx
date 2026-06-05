@@ -996,15 +996,19 @@ export default function App() {
       )}
 
       {/* Top Banner Notice */}
-      <div className="bg-gradient-to-r from-purple-900 to-[#1D0130] text-white py-2 px-4 shadow-inner text-xs sm:text-sm font-semibold tracking-wider border-b border-emerald-800/20">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-          <div className="flex items-center gap-2">
-            <Truck size={16} className="text-emerald-600 animate-bounce" />
-            <span><span>✨ Luxury Grocery Delivery — Free Home Delivery above ₹500!</span></span>
+      <div className="bg-gradient-to-r from-purple-900 to-[#1D0130] text-white py-2 px-4 shadow-inner text-xs sm:text-sm font-semibold tracking-wider border-b border-emerald-800/20 overflow-hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1">
+          <div className="flex items-center gap-2 min-w-0">
+            <Truck size={14} className="text-emerald-600 animate-bounce flex-shrink-0" />
+            <span className="truncate">✨ Free Delivery above ₹500!</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
             <span className="bg-emerald-600 text-white text-[10px] uppercase font-bold py-0.5 px-2 rounded-full">LIMITED OFFER</span>
-            <span>Extra 10% Off Use Code: <strong className="text-[#E4C560]">UMA10</strong></span>
+            <span>Extra 10% Off Code: <strong className="text-[#E4C560]">UMA10</strong></span>
+          </div>
+          <div className="flex sm:hidden items-center gap-1.5 flex-shrink-0">
+            <span className="bg-emerald-600 text-white text-[9px] uppercase font-bold py-0.5 px-1.5 rounded-full">UMA10</span>
+            <span className="text-[#E4C560] text-[10px] font-bold">10% OFF</span>
           </div>
         </div>
       </div>
@@ -1337,39 +1341,39 @@ export default function App() {
         <>
           {/* Balanced Modave Style Hero Carousel */}
           <section className="relative overflow-hidden bg-[#2A0033]">
-            <div className="relative h-[420px] sm:h-[480px] w-full transition-all duration-700 ease-in-out">
+            <div className="relative h-[340px] sm:h-[420px] md:h-[480px] w-full transition-all duration-700 ease-in-out">
               {slides.map((slide, idx) => (
                 <div
                   key={idx}
-                  className={`absolute inset-0 w-full h-full flex flex-col md:flex-row items-center justify-between p-8 sm:p-14 transition-opacity duration-1000 bg-gradient-to-br ${slide.bgGradient} ${
+                  className={`absolute inset-0 w-full h-full flex flex-col md:flex-row items-center justify-between px-5 py-6 sm:p-10 md:p-14 transition-opacity duration-1000 bg-gradient-to-br ${slide.bgGradient} ${
                     idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
                   }`}
                 >
                   {/* Slide Text Content */}
-                  <div className="flex-1 text-gray-200 max-w-xl space-y-4 text-left">
-                    <div className="inline-flex items-center gap-2 bg-gray-800/50 border border-[#2A0033]0/30 text-[#E4C560] py-1 px-3.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-sm">
-                      <Percent size={14} />
+                  <div className="flex-1 text-gray-200 max-w-xl space-y-2 sm:space-y-4 text-left">
+                    <div className="inline-flex items-center gap-2 bg-gray-800/50 border border-[#2A0033]/30 text-[#E4C560] py-1 px-3 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest shadow-sm">
+                      <Percent size={12} />
                       <span>{slide.badge}</span>
                     </div>
-                    <div className="space-y-2">
-                      <p className="text-emerald-600 text-xs sm:text-sm font-bold tracking-widest uppercase">{slide.subtitle}</p>
-                      <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-200 leading-tight font-serif">
+                    <div className="space-y-1 sm:space-y-2">
+                      <p className="text-emerald-400 text-[10px] sm:text-sm font-bold tracking-widest uppercase">{slide.subtitle}</p>
+                      <h2 className="text-xl sm:text-3xl lg:text-5xl font-extrabold text-gray-200 leading-tight font-serif">
                         {slide.title}
                       </h2>
-                      <h3 className="text-lg sm:text-xl text-gray-400 font-medium">
+                      <h3 className="text-sm sm:text-lg text-gray-400 font-medium">
                         {slide.highlight}
                       </h3>
                     </div>
-                    <p className="text-gray-400 text-xs sm:text-sm max-w-lg leading-relaxed">
+                    <p className="text-gray-400 text-[11px] sm:text-sm max-w-lg leading-relaxed hidden sm:block">
                       {slide.description}
                     </p>
-                    <div className="pt-2 flex items-center gap-4">
+                    <div className="pt-1 sm:pt-2 flex items-center gap-3 sm:gap-4">
                       <button
                         onClick={() => {
                           const element = document.getElementById('shop-section');
                           element?.scrollIntoView({ behavior: 'smooth' });
                         }}
-                        className="bg-gradient-to-r from-[#E4C560] to-[#C9A637] hover:from-white hover:to-white hover:text-white text-white font-bold text-xs py-2.5 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 tracking-wider uppercase"
+                        className="bg-gradient-to-r from-[#E4C560] to-[#C9A637] hover:from-white hover:to-white hover:text-white text-white font-bold text-[10px] sm:text-xs py-2 sm:py-2.5 px-4 sm:px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 tracking-wider uppercase"
                       >
                         {slide.cta}
                       </button>
@@ -1381,7 +1385,7 @@ export default function App() {
                   </div>
 
                   {/* Slide Image Mockup */}
-                  <div className="flex-1 w-full max-w-[260px] sm:max-w-[380px] h-[160px] sm:h-[280px] relative mt-4 md:mt-0 transition-transform duration-700 hover:scale-105">
+                  <div className="flex-shrink-0 w-[130px] h-[130px] sm:w-[240px] sm:h-[200px] md:w-[380px] md:h-[280px] relative mt-2 md:mt-0 transition-transform duration-700 hover:scale-105">
                     <img
                       src={slide.image}
                       alt={slide.title}
@@ -1466,17 +1470,17 @@ export default function App() {
           </section>
 
           {/* Deluxe Collage of Categories (User Request 2) */}
-          <section className="py-16 bg-[#FAF7FB] border-t border-[#F3EDF5]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-12">
+          <section className="py-8 sm:py-16 bg-[#FAF7FB] border-t border-[#F3EDF5]">
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+              <div className="text-center mb-6 sm:mb-12">
                 <p className="text-xs font-bold tracking-widest text-emerald-700 uppercase">Premium Sourcing</p>
-                <h2 className="text-3xl font-extrabold text-[#1D0130] font-serif mt-1">Explore Sourced Categories</h2>
-                <p className="text-gray-600 text-sm mt-2 max-w-md mx-auto">Click any category image in the collage to split and filter products instantly.</p>
-                <div className="h-1 w-20 bg-gradient-to-r from-emerald-600 to-teal-400 mx-auto mt-3 rounded-full"></div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1D0130] font-serif mt-1">Explore Sourced Categories</h2>
+                <p className="text-gray-600 text-xs sm:text-sm mt-2 max-w-md mx-auto hidden sm:block">Click any category image in the collage to split and filter products instantly.</p>
+                <div className="h-1 w-16 sm:w-20 bg-gradient-to-r from-emerald-600 to-teal-400 mx-auto mt-3 rounded-full"></div>
               </div>
 
               {/* Dynamic Asymmetric Collage Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
                 {categoriesList.map((category, idx) => {
                   const isActive = selectedCategory === category;
                   const fallbackImages = [
@@ -2085,7 +2089,7 @@ export default function App() {
 
             return (
               <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
                   {currentProducts.map((product, idx) => {
                     // Create dynamic labels/badges for premium aesthetics
                     const discounts = ["20% OFF", "POPULAR", "NEW", "ORGANIC"];
