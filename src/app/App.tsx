@@ -70,8 +70,8 @@ const categoryImages: Record<string, string> = {
   'Dairy': '/cat_dairy.jpg',
   'Chocolates': '/cat_chocolates.jpg',
   'Masala Powder': '/cat_masala.jpg',
-  'Oral Care': '/logo.png',
-  'Personal Care': '/logo.png'
+  'Oral Care': '/cat_oral_care.jpg',
+  'Personal Care': '/cat_personal_care.jpg'
 };
 
 const categoryLabels: Record<string, string> = {
