@@ -1397,18 +1397,13 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Slide Image Card — grocery shelf bg, no solid card color */}
-                  <div
-                    className="flex-shrink-0 w-[140px] h-[140px] sm:w-[260px] sm:h-[220px] md:w-[400px] md:h-[300px] relative mt-2 md:mt-0 transition-transform duration-700 hover:scale-105 rounded-2xl overflow-hidden shadow-2xl"
-                    style={{ backgroundImage: 'url(/grocery_shelf.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
-                  >
-                    {/* Light overlay so product image stands out */}
-                    <div className="absolute inset-0 bg-black/30" />
+                  {/* Slide Image — no card background, floats over hero */}
+                  <div className="flex-shrink-0 w-[140px] h-[140px] sm:w-[260px] sm:h-[220px] md:w-[400px] md:h-[300px] relative mt-2 md:mt-0 transition-transform duration-700 hover:scale-105">
                     <img
                       src={slide.image}
                       alt={slide.title}
                       onError={handleImageError}
-                      className="relative z-10 w-full h-full object-contain drop-shadow-xl"
+                      className="w-full h-full object-contain drop-shadow-2xl"
                     />
                   </div>
                 </div>
