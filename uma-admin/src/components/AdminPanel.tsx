@@ -1589,7 +1589,10 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
                     </button>
                   ))}
                 </div>
-                       <div>
+              )}
+            </div>
+
+            <div>
               <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Image (URL or Local File) <span className="text-red-500">*</span></label>
               <input
                 type="text"
