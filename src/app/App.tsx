@@ -1341,15 +1341,26 @@ export default function App() {
 
       {currentView === 'home' ? (
         <>
-          {/* Balanced Modave Style Hero Carousel */}
-          <section className="relative overflow-hidden bg-[#2A0033]">
-            <div className="relative h-[340px] sm:h-[420px] md:h-[480px] w-full transition-all duration-700 ease-in-out">
+          {/* Hero Carousel — Grocery Image Background */}
+          <section
+            className="relative overflow-hidden"
+            style={{
+              backgroundImage: 'url(/hero_bg.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'local'
+            }}
+          >
+            {/* Persistent dark overlay so text is always readable */}
+            <div className="absolute inset-0 bg-black/55 z-0" />
+            <div className="relative h-[340px] sm:h-[420px] md:h-[480px] w-full transition-all duration-700 ease-in-out z-10">
               {slides.map((slide, idx) => (
                 <div
                   key={idx}
-                  className={`absolute inset-0 w-full h-full flex flex-col md:flex-row items-center justify-between px-5 py-6 sm:p-10 md:p-14 transition-opacity duration-1000 bg-gradient-to-br ${slide.bgGradient} ${
+                  className={`absolute inset-0 w-full h-full flex flex-col md:flex-row items-center justify-between px-5 py-6 sm:p-10 md:p-14 transition-opacity duration-1000 bg-gradient-to-br ${slide.bgGradient} bg-opacity-60 ${
                     idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
                   }`}
+                  style={{ background: `linear-gradient(135deg, rgba(26,0,37,0.82) 0%, rgba(74,14,78,0.55) 60%, rgba(0,0,0,0.25) 100%)` }}
                 >
                   {/* Slide Text Content */}
                   <div className="flex-1 text-gray-200 max-w-xl space-y-2 sm:space-y-4 text-left">
@@ -1386,13 +1397,18 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Slide Image Mockup */}
-                  <div className="flex-shrink-0 w-[130px] h-[130px] sm:w-[240px] sm:h-[200px] md:w-[380px] md:h-[280px] relative mt-2 md:mt-0 transition-transform duration-700 hover:scale-105">
+                  {/* Slide Image Card — grocery shelf bg, no solid card color */}
+                  <div
+                    className="flex-shrink-0 w-[140px] h-[140px] sm:w-[260px] sm:h-[220px] md:w-[400px] md:h-[300px] relative mt-2 md:mt-0 transition-transform duration-700 hover:scale-105 rounded-2xl overflow-hidden shadow-2xl"
+                    style={{ backgroundImage: 'url(/grocery_shelf.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+                  >
+                    {/* Light overlay so product image stands out */}
+                    <div className="absolute inset-0 bg-black/30" />
                     <img
                       src={slide.image}
                       alt={slide.title}
                       onError={handleImageError}
-                      className="w-full h-full object-cover rounded-2xl"
+                      className="relative z-10 w-full h-full object-contain drop-shadow-xl"
                     />
                   </div>
                 </div>
@@ -1402,19 +1418,19 @@ export default function App() {
             {/* Carousel Slider Arrows */}
             <button
               onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-25 bg-[#1D0130]/10 hover:bg-[#1D0130] text-gray-200 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-white/20 hidden sm:block shadow-md"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-[#1D0130] text-gray-200 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-white/30 hidden sm:block shadow-md backdrop-blur-sm"
             >
               <ArrowLeft size={18} />
             </button>
             <button
               onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-25 bg-[#1D0130]/10 hover:bg-[#1D0130] text-gray-200 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-white/20 hidden sm:block shadow-md"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-[#1D0130] text-gray-200 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-white/30 hidden sm:block shadow-md backdrop-blur-sm"
             >
               <ArrowRight size={18} />
             </button>
 
             {/* Slide Indicators Dots */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-25 flex items-center gap-2">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
               {slides.map((_, index) => (
                 <button
                   key={index}
