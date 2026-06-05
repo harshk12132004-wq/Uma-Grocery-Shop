@@ -264,6 +264,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
     setFormCategoryName(category.name);
     setFormCategoryDescription(category.description || '');
     setFormCategoryImage(category.image_url || '');
+    setFormDedicatedImage(category.dedicated_image_url || '');
     setIsCategoryDialogOpen(true);
   };
 
@@ -870,7 +871,7 @@ export default function AdminPanel({ products, categories, currentUser, onProduc
           </div>
 
           <div className="mb-6">
-            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Category Image (Optional)</label>
+            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Explore Categories Collage Image (Optional)</label>
             <input
               type="text"
               value={formCategoryImage}

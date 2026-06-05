@@ -80,7 +80,19 @@ api.interceptors.response.use(
     }
     return response;
   },
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      (!error.response || error.code === 'ECONNABORTED' || error.message === 'Network Error') &&
+      originalRequest &&
+      !originalRequest._retryOnLocalhost &&
+      originalRequest.baseURL !== 'http://localhost:8000/api'
+    ) {
+      originalRequest._retryOnLocalhost = true;
+      console.warn(`API call failed for remote server. Retrying on http://localhost:8000/api...`);
+      originalRequest.baseURL = 'http://localhost:8000/api';
+      return api(originalRequest);
+    }
     return Promise.reject(error);
   }
 );
