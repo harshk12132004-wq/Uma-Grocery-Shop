@@ -123,6 +123,19 @@ CORS_ALLOWED_ORIGINS = [
     "https://admin-uma-grocery-shop.vercel.app",
 ]
 
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://uma-grocery-shop-.*\.vercel\.app$",
+    r"^https://admin-uma-grocery-shop-.*\.vercel\.app$",
+]
+CORS_ORIGIN_REGEX_WHITELIST = CORS_ALLOWED_ORIGIN_REGEXES
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://uma-grocery-shop.vercel.app",
+    "https://admin-uma-grocery-shop.vercel.app",
+    "https://*.vercel.app",
+]
+
+
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
